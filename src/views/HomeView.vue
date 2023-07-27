@@ -4,7 +4,10 @@
     <h1>Home</h1>
     <div v-if="error">{{error}}</div>
     <div v-if="posts.length">
-      <PostList v-if="showPosts" :posts="posts"></PostList>
+      <div class="layout">
+        <PostList v-if="showPosts" :posts="posts"></PostList>
+        <TagCloud :posts="posts"/>
+      </div>
       <button @click="showPosts=!showPosts">Toggle posts</button>
       <button @click="posts.pop()">Delete last post</button>
     </div>
@@ -20,10 +23,11 @@ import PostList from "@/components/PostList";
 import {ref, reactive, computed, watch, watchEffect} from "vue";
 import getPosts from "@/composables/getPosts";
 import Spinner from "@/components/Spinner";
+import TagCloud from "@/components/TagCloud";
 
 export default {
   name: 'HomeView',
-  components: {Spinner, PostList},
+  components: {TagCloud, Spinner, PostList},
 
   setup(){
     const showPosts = ref(true)
@@ -37,6 +41,11 @@ export default {
 
 
 <style>
+.layout{
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+}
 .home{
   max-width: 1200px;
   margin: 0 auto;
