@@ -31,6 +31,8 @@ export default {
 .post{
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 30px;
+  border-bottom: 1px dashed #e7e7e7;
 }
 .post p {
   color: #444;
@@ -39,5 +41,26 @@ export default {
 }
 .pre{
   white-space: pre-wrap;
+}
+
+.post h3{
+  display: inline-block;
+  margin-top: 30px;
+  position: relative;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 10px;
+}
+.post h3::before{
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #ff8800;
+  position: absolute;
+  z-index: -1;
+  padding-right: 40px;
+  left: -20px;
+  transform: rotateZ(-1.5deg);
 }
 </style>
