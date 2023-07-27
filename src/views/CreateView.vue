@@ -31,6 +31,7 @@ export default {
     const tags = ref([])
     const router = useRouter()
 
+
     const addPost = async () =>{
       const post = {title: title.value, body: body.value, tags: tags.value}
 
