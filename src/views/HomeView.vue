@@ -9,7 +9,7 @@
       <button @click="posts.pop()">Delete last post</button>
     </div>
 
-    <div v-else>Loading...</div>
+    <div v-else>  <Spinner/></div>
 
   </div>
 
@@ -19,10 +19,11 @@
 import PostList from "@/components/PostList";
 import {ref, reactive, computed, watch, watchEffect} from "vue";
 import getPosts from "@/composables/getPosts";
+import Spinner from "@/components/Spinner";
 
 export default {
   name: 'HomeView',
-  components: {PostList},
+  components: {Spinner, PostList},
 
   setup(){
     const showPosts = ref(true)
