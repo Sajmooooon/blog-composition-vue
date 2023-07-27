@@ -19,14 +19,17 @@
 
 <script>
 import {ref} from "vue";
+import {useRouter} from "vue-router/dist/vue-router";
 
 export default {
   name: "CreateView",
   setup(){
+
     const title = ref(null)
     const body = ref(null)
     const tag = ref(null)
     const tags = ref([])
+    const router = useRouter()
 
     const addPost = async () =>{
       const post = {title: title.value, body: body.value, tags: tags.value}
@@ -37,9 +40,7 @@ export default {
           body: JSON.stringify(post)
         })
 
-
-
-
+      router.push({name: 'home'})
     }
     const addTag = () =>{
       if(!tags.value.includes(tag.value) && tag.value){
