@@ -2,7 +2,15 @@
 
   <div  class="home">
     <h1>home</h1>
-    <PostList :posts="posts"></PostList>
+    <div v-if="error">{{error}}</div>
+    <div v-if="posts.length">
+      <PostList v-if="showPosts" :posts="posts"></PostList>
+      <button @click="showPosts=!showPosts">Toggle posts</button>
+      <button @click="posts.pop()">Delete last post</button>
+    </div>
+
+    <div v-else>Loading...</div>
+
   </div>
 
 </template>
@@ -10,19 +18,18 @@
 <script>
 import PostList from "@/components/PostList";
 import {ref, reactive, computed, watch, watchEffect} from "vue";
+import getPosts from "@/composables/getPosts";
 
 export default {
   name: 'HomeView',
   components: {PostList},
 
   setup(){
-    let test = "lorem "
-    const posts = ref([
-      {title:'nonon',body:'Lorem ipsum dolor sit amet,',id:1},
+    const showPosts = ref(true)
+    const {posts,error, load }= getPosts()
+    load()
 
-      {title:'welcome',body:'consectetur adipiscing elit',id:2}
-    ])
-    return {posts}
+    return {posts,showPosts,error}
   }
 }
 </script>
