@@ -24,6 +24,8 @@ import getPosts from "@/composables/getPosts";
 import PostList from "@/components/PostList";
 import Spinner from "@/components/Spinner";
 import TagCloud from "@/components/TagCloud";
+import {usePostsStore} from "@/store/PostsStore";
+import {storeToRefs} from "pinia/dist/pinia";
 
 export default {
   name: "TagView",
@@ -33,8 +35,10 @@ export default {
     const tag = computed(()=>{
       return route.params.tag
     })
-    const {posts,error, load }= getPosts()
-    load()
+
+    const postsStore = usePostsStore()
+    postsStore.load()
+    const {posts,error} = storeToRefs(postsStore)
 
     const filteredPosts = computed(()=>{
       return posts.value.filter((post)=>post.tags.includes(route.params.tag))
