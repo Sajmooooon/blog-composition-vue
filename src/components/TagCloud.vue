@@ -7,13 +7,16 @@
 
 <script>
 import useTags from "@/composables/useTags";
+import {useTagStore} from "@/store/TagStore";
+import {storeToRefs} from "pinia/dist/pinia";
 
 export default {
   name: "TagCloud",
   props: ['posts'],
   setup(props){
-    const {tags} = useTags(props.posts)
-
+    const tagsStore = useTagStore()
+    tagsStore.getTags(props.posts)
+    const {tags} = storeToRefs(tagsStore)
     return {tags}
   }
 }
