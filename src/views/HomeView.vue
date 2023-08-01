@@ -21,9 +21,10 @@
 <script>
 import PostList from "@/components/PostList";
 import {ref, reactive, computed, watch, watchEffect} from "vue";
-import getPosts from "@/composables/getPosts";
 import Spinner from "@/components/Spinner";
 import TagCloud from "@/components/TagCloud";
+import {usePostsStore} from "@/store/PostsStore";
+import {storeToRefs} from "pinia/dist/pinia";
 
 export default {
   name: 'HomeView',
@@ -31,8 +32,11 @@ export default {
 
   setup(){
     const showPosts = ref(true)
-    const {posts,error, load }= getPosts()
-    load()
+    const postsStore = usePostsStore()
+    postsStore.load()
+    const {posts,error} = storeToRefs(postsStore)
+    // const {posts,error, load }= getPosts()
+    // load()
 
     return {posts,showPosts,error}
   }
