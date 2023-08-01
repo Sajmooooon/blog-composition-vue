@@ -14,6 +14,8 @@
 import getPost from "@/composables/getPost";
 import Spinner from "@/components/Spinner";
 import {useRoute} from "vue-router/dist/vue-router";
+import {usePostStore} from "@/store/PostStore";
+import {storeToRefs} from "pinia/dist/pinia";
 
 export default {
   name: "DetailsView",
@@ -22,8 +24,11 @@ export default {
   setup(props){
     const route = useRoute()
     // const {post,error, load} = getPost(props.id)
-    const {post,error, load} = getPost(route.params.id)
-    load()
+
+    const postStore = usePostStore()
+    // const {post,error, load} = usePostStore().init(route.params.id)
+    postStore.load(route.params.id)
+    const {post,error} = storeToRefs(postStore)
     return {post,error}
   }
 
