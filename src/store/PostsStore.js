@@ -13,7 +13,7 @@ export const usePostsStore = defineStore('postsStore',  {
     actions: {
         async load(){
             try{
-                const postsCol = await collection(db,'posts')
+                const postsCol = collection(db,'posts')
                 const postsSnap = await getDocs(postsCol);
                 this.posts = postsSnap.docs.map(doc=> {return { ...doc.data(), id: doc.id}})
             }
