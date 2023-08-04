@@ -14,7 +14,7 @@ export const usePostStore = defineStore('postStore',  {
             try{
                 const post = doc(db,'posts',id)
                 const postSnap = await getDoc(post);
-                this.post = postSnap.data()
+                this.post = {...postSnap.data(), id: postSnap.id}
             }
             catch (err){
                 this.error = err.message
