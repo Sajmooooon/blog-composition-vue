@@ -20,6 +20,8 @@
 <script>
 import {ref} from "vue";
 import {useRouter} from "vue-router/dist/vue-router";
+import {collection,addDoc} from "firebase/firestore/lite";
+import {db} from "@/firebase/config";
 
 export default {
   name: "CreateView",
@@ -30,18 +32,14 @@ export default {
     const tag = ref(null)
     const tags = ref([])
     const router = useRouter()
-
+    const colRef = collection(db,'posts')
 
     const addPost = async () =>{
       const post = {title: title.value, body: body.value, tags: tags.value}
 
-       await fetch('http://localhost:3000/posts',{
-          method: 'POST',
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(post)
-        })
+      await addDoc(colRef,post)
 
-      router.push({name: 'home'})
+      await router.push({name: 'home'})
     }
     const addTag = () =>{
       if(!tags.value.includes(tag.value) && tag.value){
