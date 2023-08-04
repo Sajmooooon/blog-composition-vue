@@ -3,7 +3,7 @@
   <div v-if="post" class="post">
     <h3>{{post.title}}</h3>
     <p class="pre">{{post.body}}</p>
-
+    <button @click="handleClick">Delete Post</button>
   </div>
   <div v-else>
     <Spinner/>
@@ -16,6 +16,10 @@ import Spinner from "@/components/Spinner";
 import {useRoute} from "vue-router/dist/vue-router";
 import {usePostStore} from "@/store/PostStore";
 import {storeToRefs} from "pinia/dist/pinia";
+import {collection,deleteDoc,doc} from "firebase/firestore/lite";
+import {db} from "@/firebase/config";
+import {useRouter} from "vue-router/dist/vue-router";
+
 
 export default {
   name: "DetailsView",
@@ -23,13 +27,22 @@ export default {
   props: ['id'],
   setup(props){
     const route = useRoute()
+    const router = useRouter()
     // const {post,error, load} = getPost(props.id)
 
     const postStore = usePostStore()
     // const {post,error, load} = usePostStore().init(route.params.id)
     postStore.load(route.params.id)
     const {post,error} = storeToRefs(postStore)
-    return {post,error}
+
+    const handleClick = async ()=>{
+      const postRef = doc(db, 'posts', props.id)
+      await deleteDoc(postRef).then(()=>console.log('Deleted id: '+ props.id))
+      await router.push({name: 'home'})
+      // await deleteDoc(collection(db,'posts',props.id))
+    }
+
+    return {post,error, handleClick}
   }
 
 }

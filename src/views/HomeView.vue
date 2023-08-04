@@ -9,7 +9,6 @@
         <TagCloud :posts="posts"/>
       </div>
       <button @click="showPosts=!showPosts">Toggle posts</button>
-      <button @click="posts.pop()">Delete last post</button>
     </div>
 
     <div v-else>  <Spinner/></div>
