@@ -1,4 +1,8 @@
 import { defineStore } from 'pinia'
+import {db} from "@/firebase/config";
+import { collection, getDocs } from 'firebase/firestore/lite';
+
+
 
 export const usePostsStore = defineStore('postsStore',  {
     state:()=>({
@@ -9,11 +13,9 @@ export const usePostsStore = defineStore('postsStore',  {
     actions: {
         async load(){
             try{
-                let data = await fetch("http://localhost:3000/posts")
-                if (!data.ok){
-                    throw Error('no data available')
-                }
-                this.posts = await data.json()
+                const postsCol = await collection(db,'posts')
+                const postsSnap = await getDocs(postsCol);
+                this.posts = postsSnap.docs.map(doc=> {return { ...doc.data(), id: doc.id}})
             }
             catch (err){
                 this.error = err.message
