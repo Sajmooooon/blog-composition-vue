@@ -20,7 +20,7 @@
 <script>
 import {ref} from "vue";
 import {useRouter} from "vue-router/dist/vue-router";
-import {collection,addDoc} from "firebase/firestore/lite";
+import {collection,addDoc, serverTimestamp} from "firebase/firestore/lite";
 import {db} from "@/firebase/config";
 
 export default {
@@ -35,7 +35,7 @@ export default {
     const colRef = collection(db,'posts')
 
     const addPost = async () =>{
-      const post = {title: title.value, body: body.value, tags: tags.value}
+      const post = {title: title.value, body: body.value, tags: tags.value, createdAt: serverTimestamp()}
 
       await addDoc(colRef,post)
 

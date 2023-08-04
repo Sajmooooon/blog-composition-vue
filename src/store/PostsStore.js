@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import {db} from "@/firebase/config";
-import { collection, getDocs } from 'firebase/firestore/lite';
-
+import { collection, getDocs, query,orderBy } from 'firebase/firestore/lite';
 
 
 export const usePostsStore = defineStore('postsStore',  {
@@ -14,7 +13,9 @@ export const usePostsStore = defineStore('postsStore',  {
         async load(){
             try{
                 const postsCol = collection(db,'posts')
-                const postsSnap = await getDocs(postsCol);
+                const q = query(postsCol,orderBy('createdAt','asc'))
+                const postsSnap = await getDocs(q);
+
                 this.posts = postsSnap.docs.map(doc=> {return { ...doc.data(), id: doc.id}})
             }
             catch (err){
